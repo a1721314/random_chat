@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:random_chatr/signinOrSignUp/signin_or_signup_screen.dart';
 
 import '../constants.dart';
+import 'messages/message_screen.dart';
 
 class WelcomeScreen extends StatelessWidget {
   @override
@@ -39,7 +40,8 @@ class WelcomeScreen extends StatelessWidget {
                   onPressed: () => Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => SigninOrSignupScreen(),
+                          // builder: (context) => SigninOrSignupScreen(),
+                          builder: (context) => MessagesScreen(),
                         ),
                       ),
                   child: Row(
