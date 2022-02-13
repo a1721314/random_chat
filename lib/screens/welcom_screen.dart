@@ -1,74 +1,86 @@
 import 'package:flutter/material.dart';
-import 'package:random_chatr/signinOrSignUp/signin_or_signup_screen.dart';
+import '../components/rounded_button.dart';
+import 'login_screen.dart';
+import 'registration_screen.dart';
+import 'package:animated_text_kit/animated_text_kit.dart';
 
-import '../constants.dart';
-import 'messages/message_screen.dart';
+class WelcomeScreen extends StatefulWidget {
+  static const String id = 'welcome_screen';
 
-class WelcomeScreen extends StatelessWidget {
+  @override
+  _WelcomeScreenState createState() => _WelcomeScreenState();
+}
+
+class _WelcomeScreenState extends State<WelcomeScreen>
+    with SingleTickerProviderStateMixin {
+  late AnimationController controller;
+  late Animation animation;
+
+  @override
+  void initState() {
+    super.initState();
+
+    controller =
+        AnimationController(duration: Duration(seconds: 1), vsync: this);
+    animation = ColorTween(begin: Colors.blueGrey, end: Colors.white)
+        .animate(controller);
+    controller.forward();
+    controller.addListener(() {
+      setState(() {});
+    });
+  }
+
+  @override
+  void dispose() {
+    controller.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SafeArea(
+      backgroundColor: animation.value,
+      body: Padding(
+        padding: EdgeInsets.symmetric(horizontal: 24.0),
         child: Column(
-          children: [
-            Spacer(flex: 2),
-            Image.asset("assets/images/welcome_image.png"),
-            Spacer(flex: 3),
-            Text(
-              "Welcome to our freedom \nmessaging app",
-              textAlign: TextAlign.center,
-              style: Theme.of(context)
-                  .textTheme
-                  .headline5!
-                  .copyWith(fontWeight: FontWeight.bold),
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: <Widget>[
+            Row(
+              children: <Widget>[
+                Hero(
+                  tag: 'logo',
+                  child: Container(
+                    child: Image.asset('images/logo.png'),
+                    height: 60.0,
+                  ),
+                ),
+                TypewriterAnimatedTextKit(
+                  text: ['Flash Chat'],
+                  textStyle: TextStyle(
+                    fontSize: 45.0,
+                    fontWeight: FontWeight.w900,
+                  ),
+                ),
+              ],
             ),
-            Spacer(),
-            Text(
-              "Freedom talk any person of your \nmother language.",
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                color: Theme.of(context)
-                    .textTheme
-                    .bodyText1!
-                    .color!
-                    .withOpacity(0.64),
-              ),
+            SizedBox(
+              height: 48.0,
             ),
-            Spacer(flex: 3),
-            FittedBox(
-              child: TextButton(
-                  onPressed: () => Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          // builder: (context) => SigninOrSignupScreen(),
-                          builder: (context) => MessagesScreen(),
-                        ),
-                      ),
-                  child: Row(
-                    children: [
-                      Text(
-                        "Skip",
-                        style: Theme.of(context).textTheme.bodyText1!.copyWith(
-                              color: Theme.of(context)
-                                  .textTheme
-                                  .bodyText1!
-                                  .color!
-                                  .withOpacity(0.8),
-                            ),
-                      ),
-                      SizedBox(width: kDefaultPadding / 4),
-                      Icon(
-                        Icons.arrow_forward_ios,
-                        size: 16,
-                        color: Theme.of(context)
-                            .textTheme
-                            .bodyText1!
-                            .color!
-                            .withOpacity(0.8),
-                      )
-                    ],
-                  )),
-            )
+            RoundedButton(
+              title: 'Log In',
+              colour: Colors.lightBlueAccent,
+              onPressed: () {
+                Navigator.pushNamed(context, LoginScreen.id);
+              },
+            ),
+            RoundedButton(
+              title: 'Register',
+              colour: Colors.blueAccent,
+              onPressed: () {
+                Navigator.pushNamed(context, RegistrationScreen.id);
+              },
+            ),
           ],
         ),
       ),

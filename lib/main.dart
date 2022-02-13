@@ -1,21 +1,24 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:random_chatr/screens/chat_screen.dart';
+import 'package:random_chatr/screens/login_screen.dart';
+import 'package:random_chatr/screens/registration_screen.dart';
 import 'package:random_chatr/screens/welcom_screen.dart';
-import 'package:random_chatr/theme.dart';
 
-void main() {
-  runApp(MyApp());
-}
+void main() => runApp(FlashChat());
 
-class MyApp extends StatelessWidget {
-  // This widget is the root of your application.
+class FlashChat extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    Firebase.initializeApp();
     return MaterialApp(
-      title: 'Flutter Demo',
-      debugShowCheckedModeBanner: false,
-      theme: lightThemeData(context),
-      darkTheme: darkThemeData(context),
-      home: WelcomeScreen(),
+      initialRoute: WelcomeScreen.id,
+      routes: {
+        WelcomeScreen.id: (context) => WelcomeScreen(),
+        LoginScreen.id: (context) => LoginScreen(),
+        RegistrationScreen.id: (context) => RegistrationScreen(),
+        ChatScreen.id: (context) => ChatScreen(),
+      },
     );
   }
 }
